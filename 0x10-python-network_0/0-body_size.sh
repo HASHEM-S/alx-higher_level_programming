@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 
-# Check if the user provided a URL as an argument
-if [ -z "$1" ]; then
+# Check if a URL is provided
+if [ $# -ne 1 ]; then
     echo "Usage: $0 <URL>"
     exit 1
 fi
 
-# Send request to the URL and get the response body size in bytes
-response=$(curl -sI "$1" | grep -i Content-Length)
-size=$(echo "$response" | awk '{print $2}')
+# Send request to the URL and get the size of the response body in bytes
+response=$(curl -sI "$1")
+size=$(echo "$response" | grep -i Content-Length | awk '{print $2}')
 
 # Check if Content-Length header exists
 if [ -z "$size" ]; then
